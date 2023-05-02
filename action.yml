@@ -1,0 +1,17 @@
+name: Action Template
+author: PhantasmicDev
+description: A basic template for creating GitHub actions with TypeScript.
+
+inputs:
+  name-to-greet:
+    description: The name to greet in action call
+    required: false
+    default: "World"
+
+outputs:
+  my-output:
+    description: An example output.
+
+runs:
+  using: node16
+  main: dist/index.js

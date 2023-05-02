@@ -1,0 +1,29 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      name-to-greet:
+        description: Name to Greet
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+      - name: Run Action
+        uses: ./
+        with:
+          name-to-greet: ${{ inputs.name-to-greet }}
