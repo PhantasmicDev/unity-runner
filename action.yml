@@ -1,16 +1,13 @@
-name: Action Template
+name: Unity Runner
 author: PhantasmicDev
-description: A basic template for creating GitHub actions with TypeScript.
+description: Run command line arguments in Unity during your GitHub workfow.
 
 inputs:
-  name-to-greet:
-    description: The name to greet in action call
+  version:
+    description: The version of Unity to install, if empty, the ProjectSettings/ProjectVersion.txt is used and if no ProjectVersion.txt file is present, the latest stable version will be used.
     required: false
-    default: "World"
-
-outputs:
-  my-output:
-    description: An example output.
+  command:
+    description: The command line argument to run in Unity.
 
 runs:
   using: node16
