@@ -3,8 +3,8 @@ name: Test Action
 on:
   workflow_dispatch:
     inputs:
-      name-to-greet:
-        description: Name to Greet
+      version:
+        description: Version
 
 jobs:
   build-and-test:
@@ -23,7 +23,12 @@ jobs:
         run: |
           npm ci
           npm run build
+
       - name: Run Action
         uses: ./
         with:
-          name-to-greet: ${{ inputs.name-to-greet }}
+          version: ${{ inputs.version}}
+          command: -createProject "${{ github.workspace}}/MyProject"
+        env:
+          UNITY_USERNAME: ${{ secrets.UNITY_USERNAME }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
