@@ -30,5 +30,6 @@ jobs:
           version: ${{ inputs.version}}
           command: -createProject "${{ github.workspace}}/MyProject"
         env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_USERNAME: ${{ secrets.UNITY_USERNAME }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
