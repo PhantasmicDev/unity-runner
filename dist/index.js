@@ -61347,7 +61347,7 @@ function run() {
             }
             const filePath = path.join(process.cwd(), "unity-license.x.ulf");
             fs.writeFileSync(filePath, licenseContent);
-            exec.exec(`-batchmode -nographics -manualLicenseFile ${filePath} -logfile`);
+            exec.exec(`${path1} -batchmode -nographics -manualLicenseFile ${filePath} -logfile`);
         }
         catch (error) {
             if (error instanceof Error)
