@@ -23,7 +23,7 @@ async function run(): Promise<void> {
             throw new Error("No License")
         }
 
-        const filePath = path.join(process.cwd(), "unity-license.x.ulf")
+        const filePath = path.join(process.cwd(), "Unity_v2019.x.ulf")
 
         fs.writeFileSync(filePath, licenseContent)
 
