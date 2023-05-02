@@ -2,19 +2,32 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import { getVersionAndChangeset } from './Utils/version-handler'
 import { setupUnity } from './Utils/setup-unity'
+import * as fs from 'fs'
+import * as path from 'path'
 
 async function run(): Promise<void> {
     try {
-        let path = process.env.UNITY_PATH
+        let path1 = process.env.UNITY_PATH
 
-        if (!path) {
+        if (!path1) {
             const [version, changeset] = await getVersionAndChangeset()
-            path = await setupUnity(version, changeset)
-            process.env.UNITY_PATH = path
+            path1 = await setupUnity(version, changeset)
+            process.env.UNITY_PATH = path1
         }
 
         const command = core.getInput("command")
-        exec.exec(`${path} ${command} -batchmode -nographics -username ${process.env.UNITY_USERNAME} -password ${process.env.UNITY_PASSWORD} -quit`)
+
+        const licenseContent = process.env.UNITY_LICENSE
+
+        if(!licenseContent) {
+            throw new Error("No License")
+        }
+
+        const filePath = path.join(process.cwd(), "unity-license.x.ulf")
+
+        fs.writeFileSync(filePath, licenseContent)
+
+        exec.exec(`${path1} ${command} -batchmode -nographics -manualLicenseFile ${filePath} -quit`)
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
