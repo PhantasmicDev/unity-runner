@@ -61329,17 +61329,25 @@ const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const version_handler_1 = __nccwpck_require__(7342);
 const setup_unity_1 = __nccwpck_require__(570);
+const fs = __importStar(__nccwpck_require__(7147));
+const path = __importStar(__nccwpck_require__(1017));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let path = process.env.UNITY_PATH;
-            if (!path) {
+            let path1 = process.env.UNITY_PATH;
+            if (!path1) {
                 const [version, changeset] = yield (0, version_handler_1.getVersionAndChangeset)();
-                path = yield (0, setup_unity_1.setupUnity)(version, changeset);
-                process.env.UNITY_PATH = path;
+                path1 = yield (0, setup_unity_1.setupUnity)(version, changeset);
+                process.env.UNITY_PATH = path1;
             }
             const command = core.getInput("command");
-            exec.exec(`${path} ${command} -batchmode -nographics -username ${process.env.UNITY_USERNAME} -password ${process.env.UNITY_PASSWORD} -quit`);
+            const licenseContent = process.env.UNITY_LICENSE;
+            if (!licenseContent) {
+                throw new Error("No License");
+            }
+            const filePath = path.join(process.cwd(), "unity-license.x.ulf");
+            fs.writeFileSync(filePath, licenseContent);
+            exec.exec(`${path1} ${command} -batchmode -nographics -manualLicenseFile ${filePath} -quit`);
         }
         catch (error) {
             if (error instanceof Error)
