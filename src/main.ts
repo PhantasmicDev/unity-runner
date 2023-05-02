@@ -27,7 +27,7 @@ async function run(): Promise<void> {
 
         fs.writeFileSync(filePath, licenseContent)
 
-        exec.exec(`${path1} ${command} -batchmode -nographics -manualLicenseFile ${filePath} -quit`)
+        exec.exec(`-batchmode -nographics -manualLicenseFile ${filePath} -logfile`)
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
