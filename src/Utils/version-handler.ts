@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as glob from 'glob'
 import * as fs from 'fs'
 
-export async function getVersionAndChangeset() {
+export async function getVersionAndChangeset(): Promise<[string,string]> {
 	let results = { version: core.getInput("version"), changeset: "" }
 
 	if (!results.version) {
