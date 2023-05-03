@@ -61329,17 +61329,21 @@ const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const version_handler_1 = __nccwpck_require__(7342);
 const setup_unity_1 = __nccwpck_require__(570);
+const fs = __importStar(__nccwpck_require__(7147));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let path1 = process.env.UNITY_PATH;
-            if (!path1) {
+            let unityPath = process.env.UNITY_PATH;
+            if (!unityPath) {
                 const [version, changeset] = yield (0, version_handler_1.getVersionAndChangeset)();
-                path1 = yield (0, setup_unity_1.setupUnity)(version, changeset);
-                process.env.UNITY_PATH = path1;
+                unityPath = yield (0, setup_unity_1.setupUnity)(version, changeset);
+                const envPath = process.env.GITHUB_ENV;
+                if (envPath) {
+                    fs.appendFileSync(envPath, `UNITY_PATH=${unityPath}`);
+                }
             }
             const command = core.getInput("command");
-            exec.exec(`${path1} ${command}`);
+            exec.exec(`${unityPath} ${command}`);
         }
         catch (error) {
             if (error instanceof Error)
