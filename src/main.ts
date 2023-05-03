@@ -17,17 +17,7 @@ async function run(): Promise<void> {
 
         const command = core.getInput("command")
 
-        const licenseContent = process.env.UNITY_LICENSE
-
-        if(!licenseContent) {
-            throw new Error("No License")
-        }
-
-        const filePath = path.join(process.cwd(), "Unity_v2019.x.ulf")
-
-        fs.writeFileSync(filePath, licenseContent)
-
-        exec.exec(`${path1} -batchmode -nographics -logfile`)
+        exec.exec(`${path1} ${command}`)
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
