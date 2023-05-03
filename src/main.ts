@@ -3,21 +3,25 @@ import * as exec from '@actions/exec'
 import { getVersionAndChangeset } from './Utils/version-handler'
 import { setupUnity } from './Utils/setup-unity'
 import * as fs from 'fs'
-import * as path from 'path'
 
 async function run(): Promise<void> {
     try {
-        let path1 = process.env.UNITY_PATH
+        let unityPath = process.env.UNITY_PATH
 
-        if (!path1) {
+        if (!unityPath) {
             const [version, changeset] = await getVersionAndChangeset()
-            path1 = await setupUnity(version, changeset)
-            process.env.UNITY_PATH = path1
+            unityPath = await setupUnity(version, changeset)
+            
+            const envPath = process.env.GITHUB_ENV;
+
+            if (envPath) {
+                fs.appendFileSync(envPath, `UNITY_PATH=${unityPath}`);
+            }
         }
 
         const command = core.getInput("command")
 
-        exec.exec(`${path1} ${command}`)
+        exec.exec(`${unityPath} ${command}`)
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
