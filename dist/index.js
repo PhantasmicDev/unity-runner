@@ -61347,7 +61347,7 @@ function run() {
             }
             const filePath = path.join(process.cwd(), "Unity_v2019.x.ulf");
             fs.writeFileSync(filePath, licenseContent);
-            exec.exec(`${path1} -batchmode -nographics -manualLicenseFile ${filePath} -logfile`);
+            exec.exec(`${path1} -batchmode -nographics -logfile`);
         }
         catch (error) {
             if (error instanceof Error)
