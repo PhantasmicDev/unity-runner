@@ -61343,7 +61343,7 @@ function run() {
                 }
             }
             const command = core.getInput("command");
-            //await exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
+            yield exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`);
             yield exec.exec(`${unityPath} ${command}`);
             console.log("Unity Command Done");
         }
