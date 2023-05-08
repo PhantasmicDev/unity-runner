@@ -21,7 +21,7 @@ async function run(): Promise<void> {
 
         const command = core.getInput("command")
 
-        await exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
+        //await exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
 
         await exec.exec(`${unityPath} ${command}`)
         console.log("Unity Command Done")
