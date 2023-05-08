@@ -24,6 +24,7 @@ async function run(): Promise<void> {
         //exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
 
         await exec.exec(`${unityPath} ${command}`)
+        console.log("Unity Command Done")
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
