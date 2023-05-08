@@ -61344,7 +61344,7 @@ function run() {
             }
             const command = core.getInput("command");
             //exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
-            exec.exec(`${unityPath} ${command}`);
+            yield exec.exec(`${unityPath} ${command}`);
         }
         catch (error) {
             if (error instanceof Error)
