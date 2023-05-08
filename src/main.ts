@@ -23,7 +23,7 @@ async function run(): Promise<void> {
 
         //exec.exec(`${unityPath} -batchmode -manualLicenseFile Unity_v2022.x.ulf -logfile`)
 
-        exec.exec(`${unityPath} ${command}`)
+        await exec.exec(`${unityPath} ${command}`)
 
     } catch (error) {
         if (error instanceof Error) core.setFailed(error.message)
