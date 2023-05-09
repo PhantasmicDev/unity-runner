@@ -61102,7 +61102,7 @@ function activateLicense(unityPath) {
         if (!licenseContent) {
             return;
         }
-        const licenseFilePath = createLicenseFile(licenseContent);
+        const licenseFilePath = yield createLicenseFile(licenseContent);
         console.log("Activating license...");
         yield exec.exec(`${unityPath} -batchmode -manualLicenseFile ${licenseFilePath} -logfile`);
     });
