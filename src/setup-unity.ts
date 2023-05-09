@@ -2,8 +2,25 @@ import * as os from 'os'
 import * as cache from '@actions/cache'
 import * as fs from 'fs'
 import * as exec from '@actions/exec'
+import { getVersionAndChangeset } from './version-helper'
 
-export async function setupUnity(version: string, changeset: string): Promise<string> {
+export async function getUnityPath(): Promise<string> {
+	let unityPath = process.env.UNITY_PATH
+
+    if (!unityPath) {
+        const [version, changeset] = await getVersionAndChangeset()
+        unityPath = await setupUnity(version, changeset)
+        
+        const envPath = process.env.GITHUB_ENV;
+
+        if (envPath) {
+            fs.appendFileSync(envPath, `UNITY_PATH=${unityPath}`);
+        }
+    }
+    return unityPath
+}
+
+async function setupUnity(version: string, changeset: string): Promise<string> {
     const installationPath = `/home/runner/Unity/Hub/Editor/${version}`
     const cacheKey = `unity-${version}-${os.platform}`
 
