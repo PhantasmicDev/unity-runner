@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import { getVersionAndChangeset } from './Utils/version-handler'
-import { setupUnity } from './Utils/setup-unity'
-import { activateLicense } from './Utils/activate-license'
+import { getVersionAndChangeset } from './version-handler'
+import { setupUnity } from './setup-unity'
+import { activateLicense } from './activate-license'
 import * as fs from 'fs'
 
 async function run(): Promise<void> {
