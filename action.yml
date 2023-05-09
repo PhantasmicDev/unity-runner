@@ -4,10 +4,13 @@ description: Run command line arguments in Unity during your GitHub workfow.
 
 inputs:
   version:
-    description: The version of Unity to install, if empty, the ProjectSettings/ProjectVersion.txt is used and if no ProjectVersion.txt file is present, the latest stable version will be used.
+    description: The version of Unity to install, if empty, the version in ProjectSettings/ProjectVersion.txt is used and if no ProjectVersion.txt file is present, the latest stable version will be used.
     required: false
   command:
-    description: The command line argument to run in Unity.
+    description: The command to run in Unity.
+  raw-command:
+    description: If true, the command will be called as is.
+    default: 'false'
 
 runs:
   using: node16
