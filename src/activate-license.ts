@@ -14,8 +14,8 @@ export async function activateLicense(unityPath: string): Promise<void> {
         return
     }
 
-    const licenseFilePath = createLicenseFile(licenseContent)
-    
+    const licenseFilePath = await createLicenseFile(licenseContent)
+
     console.log("Activating license...")
     await exec.exec(`${unityPath} -batchmode -manualLicenseFile ${licenseFilePath} -logfile`)
 }
