@@ -61163,14 +61163,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
-const version_handler_1 = __nccwpck_require__(8973);
-const setup_unity_1 = __nccwpck_require__(9297);
 const activate_license_1 = __nccwpck_require__(1008);
-const fs = __importStar(__nccwpck_require__(7147));
+const setup_unity_1 = __nccwpck_require__(9297);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const unityPath = yield getPathToUnity();
+            const unityPath = yield (0, setup_unity_1.getUnityPath)();
             yield (0, activate_license_1.activateLicense)(unityPath);
             const command = core.getInput("command");
             const rawCommand = core.getBooleanInput("raw-command");
@@ -61185,20 +61183,6 @@ function run() {
             if (error instanceof Error)
                 core.setFailed(error.message);
         }
-    });
-}
-function getPathToUnity() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let unityPath = process.env.UNITY_PATH;
-        if (!unityPath) {
-            const [version, changeset] = yield (0, version_handler_1.getVersionAndChangeset)();
-            unityPath = yield (0, setup_unity_1.setupUnity)(version, changeset);
-            const envPath = process.env.GITHUB_ENV;
-            if (envPath) {
-                fs.appendFileSync(envPath, `UNITY_PATH=${unityPath}`);
-            }
-        }
-        return unityPath;
     });
 }
 run();
@@ -61244,11 +61228,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setupUnity = void 0;
+exports.getUnityPath = void 0;
 const os = __importStar(__nccwpck_require__(2037));
 const cache = __importStar(__nccwpck_require__(7799));
 const fs = __importStar(__nccwpck_require__(7147));
 const exec = __importStar(__nccwpck_require__(1514));
+const version_helper_1 = __nccwpck_require__(4481);
+function getUnityPath() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let unityPath = process.env.UNITY_PATH;
+        if (!unityPath) {
+            const [version, changeset] = yield (0, version_helper_1.getVersionAndChangeset)();
+            unityPath = yield setupUnity(version, changeset);
+            const envPath = process.env.GITHUB_ENV;
+            if (envPath) {
+                fs.appendFileSync(envPath, `UNITY_PATH=${unityPath}`);
+            }
+        }
+        return unityPath;
+    });
+}
+exports.getUnityPath = getUnityPath;
 function setupUnity(version, changeset) {
     return __awaiter(this, void 0, void 0, function* () {
         const installationPath = `/home/runner/Unity/Hub/Editor/${version}`;
@@ -61269,7 +61269,6 @@ function setupUnity(version, changeset) {
         return path;
     });
 }
-exports.setupUnity = setupUnity;
 function installUnity(version, changeset) {
     return __awaiter(this, void 0, void 0, function* () {
         yield installUnityHub();
@@ -61307,7 +61306,7 @@ function executeCommand(command) {
 
 /***/ }),
 
-/***/ 8973:
+/***/ 4481:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
